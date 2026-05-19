@@ -1,0 +1,102 @@
+# Cipher
+
+> OSINT Reconnaissance CLI — Subdomains • Accounts • Directories
+
+A fast, concurrent recon tool written in Go for enumerating subdomains, finding accounts across 40+ platforms by username, and brute-forcing web directories.
+
+---
+
+## Installation
+
+```bash
+git clone https://github.com/youruser/Cipher
+cd Cipher
+go build -o cipher .
+```
+
+---
+
+## Commands
+
+### Subdomains
+Enumerate subdomains via certificate transparency logs (crt.sh) and DNS brute-force.
+
+```bash
+cipher subdomains -d example.com
+cipher subdomains -d example.com -w wordlist.txt -t 50 -o results.txt
+cipher subdomains -d example.com --no-bruteforce
+cipher subdomains -d example.com --no-crt
+```
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `-d` | Target domain (required) | — |
+| `-w` | Custom wordlist file | built-in |
+| `-t` | Concurrent DNS threads | 30 |
+| `-o` | Save output to file | — |
+| `--no-bruteforce` | Skip DNS brute-force | false |
+| `--no-crt` | Skip crt.sh lookup | false |
+
+---
+
+### Accounts
+Search a username across 40+ platforms including GitHub, Reddit, TikTok, YouTube, Steam, HuggingFace, npm, DockerHub, and more.
+
+```bash
+cipher accounts -u johndoe
+cipher accounts -u johndoe --show-all -o found.txt
+```
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `-u` | Username to search (required) | — |
+| `-t` | Concurrent HTTP threads | 15 |
+| `-o` | Save found accounts to file | — |
+| `--show-all` | Show not-found results too | false |
+
+**Supported Platforms (40+):** GitHub, GitLab, Bitbucket, Twitter/X, Instagram, TikTok, YouTube, Twitch, Reddit, Pinterest, Snapchat, LinkedIn, Medium, Dev.to, Hashnode, Keybase, Steam, HackerNews, Pastebin, SoundCloud, Spotify, Behance, Dribbble, Fiverr, CodePen, HuggingFace, Mastodon, Bluesky, Flickr, Tumblr, ProductHunt, Replit, Kaggle, npm, PyPI, DockerHub, StackOverflow, Gravatar, About.me, Linktree
+
+---
+
+### Dirs
+Brute-force directories and files on a web server.
+
+```bash
+cipher dirs -u https://example.com
+cipher dirs -u https://example.com -w wordlist.txt -t 50
+cipher dirs -u https://example.com -s 200,301,302 -o results.txt
+```
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `-u` | Target URL (required) | — |
+| `-w` | Custom wordlist file | built-in |
+| `-t` | Concurrent HTTP threads | 20 |
+| `-s` | Filter by status codes (comma-separated) | all except 400/404 |
+| `-o` | Save output to file | — |
+
+---
+
+## Features
+
+- Concurrent scanning with goroutines and configurable thread pools
+- Built-in wordlists embedded directly in the binary (no external files needed)
+- Color-coded terminal output
+- Optional file output for all commands
+- Single static binary — no runtime dependencies
+
+---
+
+## Legal
+
+Cipher is intended for authorized security testing, bug bounty programs, and OSINT research only. Do not use against systems you do not own or have explicit permission to test.
+
+---
+
+## Support
+
+If you find Cipher useful, consider supporting development:
+
+[![Donate via PayPal](https://img.shields.io/badge/Donate-PayPal-blue?logo=paypal)](https://paypal.me/chrome001)
+
+---
